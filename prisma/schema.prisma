@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Model "User" represents user data with an "id", "name", and relationships to "buildings" and "accessLogs."
+model User {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  createdAt DateTime @default(now())
+
+  buildings  Building[]
+  accessLogs AccessLog[]
+}
+
+// Model "Building" represents building data with an "id," "name," and relationships to "users."
+model Building {
+  id         Int         @id @default(autoincrement())
+  name       String
+  createdAt DateTime @default(now())
+
+  users      User[]
+  accessLogs AccessLog[]
+}
+
+// Model "AccessLog" represents access log data with an "id," "accessStatus," "accessType," and relationships to "user" and "building."
+model AccessLog {
+  id           Int      @id @default(autoincrement())
+  accessStatus String
+  accessType   String
+  accessTime   DateTime @default(now())
+
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+
+  buildingId Int
+  building   Building @relation(fields: [buildingId], references: [id])
+}
