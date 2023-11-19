@@ -1,7 +1,6 @@
 const createHandlers = require("../../utils/createHandlers");
 
-const UserService = require("../services/UserService");
-const userService = new UserService();
+const userService = require("../services/userService");
 
 const userController = createHandlers(userService);
 

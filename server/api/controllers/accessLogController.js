@@ -1,8 +1,7 @@
 const createHandlers = require("../../utils/createHandlers");
 
-const AccessLogService = require("../services/AccessLogService");
-const accessService = new AccessLogService();
+const accessLogService = require("../services/accessLogService");
 
-const accessController = createHandlers(accessService);
+const accessLogController = createHandlers(accessLogService);
 
-module.exports = accessController;
+module.exports = accessLogController;

@@ -14,20 +14,30 @@ datasource db {
 model User {
   id         Int         @id @default(autoincrement())
   name       String      @unique
-  createdAt DateTime @default(now())
 
-  buildings  Building[]
   accessLogs AccessLog[]
+  buildings UserInBuilding[]
+
+  createdAt DateTime @default(now())
 }
 
 // Model "Building" represents building data with an "id," "name," and relationships to "users."
 model Building {
   id         Int         @id @default(autoincrement())
   name       String
-  createdAt DateTime @default(now())
-
-  users      User[]
+ 
   accessLogs AccessLog[]
+  users UserInBuilding[]
+
+  createdAt DateTime @default(now())
+}
+
+model UserInBuilding{
+  id     Int   @id @default(autoincrement())
+  user       User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  building   Building? @relation(fields: [buildingId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId     Int? 
+  buildingId Int? 
 }
 
 // Model "AccessLog" represents access log data with an "id," "accessStatus," "accessType," and relationships to "user" and "building."
@@ -37,11 +47,8 @@ model AccessLog {
   accessType   String
   accessTime   DateTime @default(now())
 
-  userId     Int
-  buildingId Int
-
-  user       User     @relation(fields: [userId], references: [id])
-  building   Building @relation(fields: [buildingId], references: [id])
+  userId     Int?
+  buildingId Int?
+  user       User?     @relation(fields: [userId], references: [id],onDelete: SetNull, onUpdate: Cascade)
+  building   Building? @relation(fields: [buildingId], references: [id],onDelete: SetNull, onUpdate: Cascade)
 }
-
-

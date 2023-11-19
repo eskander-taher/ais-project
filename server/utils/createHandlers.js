@@ -22,7 +22,7 @@ function createHandlers(service) {
   
     async function getOneById(req, res) {
       try {
-        const { id } = req.params;
+        const id = parseInt(req.params.id, 10);
         const result = await service.getOneById(id);
         if (!result) {
           res.status(404).json({ error: "Not Found" });
@@ -37,7 +37,7 @@ function createHandlers(service) {
   
     async function updateById(req, res) {
       try {
-        const { id } = req.params;
+        const id = parseInt(req.params.id, 10);
         const updatedData = req.body;
         const result = await service.updateById(id, updatedData);
         res.status(200).json(result);
@@ -49,7 +49,7 @@ function createHandlers(service) {
   
     async function deleteById(req, res) {
       try {
-        const { id } = req.params;
+        const id = parseInt(req.params.id, 10);
         await service.deleteById(id);
         res.status(204).end();
       } catch (error) {
@@ -60,7 +60,10 @@ function createHandlers(service) {
   
     async function connectEntities(req, res) {
       try {
-        const { parentId, childEntity, childId } = req.params;
+        const parentId = parseInt(req.params.parentId, 10);
+        const childId = parseInt(req.params.childId, 10);
+        const childEntity = req.params.childEntity
+
         const result = await service.connectEntities(parentId, childEntity, childId);
         res.status(200).json(result);
       } catch (error) {
@@ -71,7 +74,10 @@ function createHandlers(service) {
   
     async function removeRelation(req, res) {
       try {
-        const { parentId, childEntity, childId } = req.params;
+        const parentId = parseInt(req.params.parentId, 10);
+        const childId = parseInt(req.params.childId, 10);
+        const childEntity = req.params.childEntity
+
         const result = await service.removeRelation(parentId, childEntity, childId);
         res.status(200).json(result);
       } catch (error) {
@@ -80,16 +86,18 @@ function createHandlers(service) {
       }
     }
   
-    async function populate(req, res) {
+    async function populate(req, res) { 
       try {
-        const { parentId, childEntity } = req.params;
+        const parentId = parseInt(req.params.parentId, 10);
+        const childEntity = req.params.childEntity
+        
         const result = await service.populate(parentId, childEntity);
         res.status(200).json(result);
       } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
       }
-    }
+    }   
   
     return {
       createOne,

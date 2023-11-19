@@ -1,9 +1,5 @@
-const BaseService = require("./_BaseService"); // Adjust the path based on your project structure
+const createService = require("../../utils/createService");
 
-class UserService extends BaseService {
-	constructor() {
-		super("accessLog");
-	}
-}
+const accessLogService = createService("accesslog");
 
-module.exports = UserService;
+module.exports = accessLogService;
