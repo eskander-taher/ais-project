@@ -1,10 +1,10 @@
-const UserService = require("../services/UserService");
-const userService = new UserService();
+const AccessLogService = require("../services/AccessLogService");
+const accessLog = new AccessLogService();
 
 async function createOne(req, res) {
 	try {
 		const data = req.body;
-		const result = await userService.createOne(data);
+		const result = await accessLog.createOne(data);
 		res.status(201).json(result);
 	} catch (error) {
 		console.error(error);
@@ -14,7 +14,7 @@ async function createOne(req, res) {
 
 async function getAll(req, res) {
 	try {
-		const result = await userService.getAll();
+		const result = await accessLog.getAll();
 		res.status(200).json(result);
 	} catch (error) {
 		console.error(error);
@@ -25,7 +25,7 @@ async function getAll(req, res) {
 async function getOneById(req, res) {
 	try {
 		const { id } = req.params;
-		const result = await userService.getOneById(id);
+		const result = await accessLog.getOneById(id);
 		if (!result) {
 			res.status(404).json({ error: "Not Found" });
 		} else {
@@ -41,7 +41,7 @@ async function updateById(req, res) {
 	try {
 		const { id } = req.params;
 		const updatedData = req.body;
-		const result = await userService.updateById(id, updatedData);
+		const result = await accessLog.updateById(id, updatedData);
 		res.status(200).json(result);
 	} catch (error) {
 		console.error(error);
@@ -52,7 +52,7 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
 	try {
 		const { id } = req.params;
-		const result = await userService.deleteById(id);
+		const result = await accessLog.deleteById(id);
 		res.status(204).end();
 	} catch (error) {
 		console.error(error);
@@ -63,7 +63,7 @@ async function deleteById(req, res) {
 async function connectEntities(req, res) {
 	try {
 		const { parentId, childEntity, childId } = req.params;
-		const result = await userService.connectEntities(parentId, childEntity, childId);
+		const result = await accessLog.connectEntities(parentId, childEntity, childId);
 		res.status(200).json(result);
 	} catch (error) {
 		console.error(error);
@@ -74,7 +74,7 @@ async function connectEntities(req, res) {
 async function removeRelation(req, res) {
 	try {
 		const { parentId, childEntity, childId } = req.params;
-		const result = await userService.removeRelation(parentId, childEntity, childId);
+		const result = await accessLog.removeRelation(parentId, childEntity, childId);
 		res.status(200).json(result);
 	} catch (error) {
 		console.error(error);
@@ -85,7 +85,7 @@ async function removeRelation(req, res) {
 async function populate(req, res) {
 	try {
 		const { parentId, childEntity } = req.params;
-		const result = await userService.populate(parentId, childEntity);
+		const result = await accessLog.populate(parentId, childEntity);
 		res.status(200).json(result);
 	} catch (error) {
 		console.error(error);
@@ -101,5 +101,5 @@ module.exports = {
 	deleteById,
 	connectEntities,
 	removeRelation,
-	populate
+	populate,
 };

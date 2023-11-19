@@ -5,6 +5,7 @@
 	"main": "./server/index.js",
 	"scripts": {
 		"start": "node ./server/index.js",
+		"server": "node --watch --env-file=.env server/index.js",
 		"dev": "concurrently \"node --watch --env-file=.env server/index.js\" \"npm run dev --prefix client\""
 	},
 	"prisma": {

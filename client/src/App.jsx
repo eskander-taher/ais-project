@@ -1,13 +1,24 @@
-import { Admin, Resource, ListGuesser } from "react-admin";
-import jsonServerProvider from "ra-data-json-server";
+import { useState, useEffect } from "react";
 
-const dataProvider = jsonServerProvider("https://jsonplaceholder.typicode.com");
+import List from "./components/List";
+import useApi from "./hooks/useApi";
 
-const App = () => (
-	<Admin dataProvider={dataProvider}>
-		<Resource name="posts" list={ListGuesser} />
-		<Resource name="comments" list={ListGuesser} />
-	</Admin>
-);
+function App() {
+	const { data, loading, error, fetchData, postData, putData, deleteData } = useApi("buildings");
+
+	let renderd = data ? <List data={data} /> : <div>Loading...</div>;
+
+	async function handleDelete() {
+		await deleteData(1);
+		await fetchData();
+	}
+
+	return (
+		<div className="container">
+			<button onClick={handleDelete}>Delete</button>
+			<div>{renderd}</div>
+		</div>
+	);
+}
 
 export default App;
