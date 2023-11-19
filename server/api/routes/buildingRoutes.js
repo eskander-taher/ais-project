@@ -5,8 +5,8 @@ const buildingController = require("../controllers/buildingController");
 // access log routes
 router.post("/", buildingController.createOne);
 router.get("/", buildingController.getAll);
-router.get("/:userId", buildingController.getOneById);
-router.put("/:userId", buildingController.updateById);
-router.delete("/:userId", buildingController.deleteById);
+router.get("/:id", buildingController.getOneById);
+router.put("/:id", buildingController.updateById);
+router.delete("/:id", buildingController.deleteById);
 
 module.exports = router;

@@ -38,14 +38,10 @@ model AccessLog {
   accessTime   DateTime @default(now())
 
   userId     Int
-  user       User     @relation(fields: [userId], references: [id], )
-
   buildingId Int
-  building   Building @relation(fields: [buildingId], references: [id])
-}
 
-model UserInBuilding {
-  
+  user       User     @relation(fields: [userId], references: [id])
+  building   Building @relation(fields: [buildingId], references: [id])
 }
 
 

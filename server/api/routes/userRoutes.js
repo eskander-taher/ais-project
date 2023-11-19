@@ -5,8 +5,8 @@ const userController = require("../controllers/userController");
 // access log routes
 router.post("/", userController.createOne);
 router.get("/", userController.getAll);
-router.get("/:userId", userController.getOneById);
-router.put("/:userId", userController.updateById);
-router.delete("/:userId", userController.deleteById);
+router.get("/:id", userController.getOneById);
+router.put("/:id", userController.updateById);
+router.delete("/:id", userController.deleteById);
 
 module.exports = router;
