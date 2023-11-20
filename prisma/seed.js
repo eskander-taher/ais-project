@@ -30,15 +30,15 @@ async function main() {
   const accessLogs = [
     {
       id: 1,
-      accessStatus: "Granted",
-      accessType: "Entry",
+      accessStatus: "GRANTED",
+      accessType: "IN",
       userId: 1,
       buildingId: 1,
     },
     {
       id: 2,
-      accessStatus: "Denied",
-      accessType: "Entry",
+      accessStatus: "DENIED",
+      accessType: "IN",
       userId: 2,
       buildingId: 2,
     },

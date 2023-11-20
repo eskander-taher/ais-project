@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const buildingController = require("../controllers/buildingController");
 
-// access log routes
+// building log routes
 router.post("/", buildingController.createOne);
 router.get("/", buildingController.getAll);
 router.get("/:id", buildingController.getOneById);

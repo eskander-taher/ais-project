@@ -122,86 +122,160 @@ describe("Building CRUD operations", () => {
 });
 
 describe("AccessLog CRUD operations", () => {
-  let createdAccessLogId;
-  let userId;
-  let buildingId;
+	let createdAccessLogId;
+	let userId;
+	let buildingId;
 
-  beforeAll(async () => {
-    const createdUser = await prisma.user.create({
-      data: {
-        name: "test user for access log",
-      },
-    });
+	beforeAll(async () => {
+		const createdUser = await prisma.user.create({
+			data: {
+				name: "test user for access log",
+			},
+		});
 
-    const createdBuilding = await prisma.building.create({
-      data: {
-        name: "test building for access log",
-      },
-    });
+		const createdBuilding = await prisma.building.create({
+			data: {
+				name: "test building for access log",
+			},
+		});
 
-    userId = createdUser.id;
-    buildingId = createdBuilding.id;
-  });
+		userId = createdUser.id;
+		buildingId = createdBuilding.id;
+	});
 
-  afterAll(async () => {
-    await prisma.user.delete({
-      where: { id: userId },
-    });
-    await prisma.building.delete({
-      where: { id: buildingId },
-    });
-  });
+	afterAll(async () => {
+		await prisma.user.delete({
+			where: { id: userId },
+		});
+		await prisma.building.delete({
+			where: { id: buildingId },
+		});
+	});
 
-  it("should create a new access log", async () => {
-    const newAccessLog = {
-      accessStatus: "Granted",
-      accessType: "Entry",
-      userId,
-      buildingId,
-    };
+	it("should create a new access log", async () => {
+		const newAccessLog = {
+			accessStatus: "GRANTED",
+			accessType: "IN",
+			userId,
+			buildingId,
+		};
 
-    const accessLog = await prisma.accessLog.create({
-      data: newAccessLog,
-    });
+		const accessLog = await prisma.accessLog.create({
+			data: newAccessLog,
+		});
 
-    expect(accessLog.accessStatus).toEqual(newAccessLog.accessStatus);
-    expect(accessLog.id).toBeDefined();
+		expect(accessLog.accessStatus).toEqual(newAccessLog.accessStatus);
+		expect(accessLog.id).toBeDefined();
 
-    // Store the created access log's ID for later tests
-    createdAccessLogId = accessLog.id;
-  });
+		// Store the created access log's ID for later tests
+		createdAccessLogId = accessLog.id;
+	});
 
-  it("should read access log data", async () => {
-    const accessLog = await prisma.accessLog.findUnique({
-      where: { id: createdAccessLogId },
-    });
+	it("should read access log data", async () => {
+		const accessLog = await prisma.accessLog.findUnique({
+			where: { id: createdAccessLogId },
+		});
 
-    expect(accessLog).not.toBeNull();
-  });
+		expect(accessLog).not.toBeNull();
+	});
 
-  it("should update access log data", async () => {
-    const updatedAccessStatus = "Denied";
+	it("should update access log data", async () => {
+		const updatedAccessStatus = "DENIED";
 
-    const updatedAccessLog = await prisma.accessLog.update({
-      where: { id: createdAccessLogId },
-      data: { accessStatus: updatedAccessStatus },
-    });
+		const updatedAccessLog = await prisma.accessLog.update({
+			where: { id: createdAccessLogId },
+			data: { accessStatus: updatedAccessStatus },
+		});
 
-    expect(updatedAccessLog.accessStatus).toEqual(updatedAccessStatus);
-  });
+		expect(updatedAccessLog.accessStatus).toEqual(updatedAccessStatus);
+	});
 
-  it("should delete an access log", async () => {
-    const deletedAccessLog = await prisma.accessLog.delete({
-      where: { id: createdAccessLogId },
-    });
+	it("should delete an access log", async () => {
+		const deletedAccessLog = await prisma.accessLog.delete({
+			where: { id: createdAccessLogId },
+		});
 
-    expect(deletedAccessLog.id).toEqual(createdAccessLogId);
+		expect(deletedAccessLog.id).toEqual(createdAccessLogId);
 
-    // Check if the access log has been deleted
-    const accessLog = await prisma.accessLog.findUnique({
-      where: { id: createdAccessLogId },
-    });
+		// Check if the access log has been deleted
+		const accessLog = await prisma.accessLog.findUnique({
+			where: { id: createdAccessLogId },
+		});
 
-    expect(accessLog).toBeNull();
-  });
+		expect(accessLog).toBeNull();
+	});
+});
+
+describe("Model relations", () => {
+	test("User and Building relation", async () => {
+		const user = await prisma.user.create({
+			data: {
+				name: "John Doe",
+			},
+		});
+
+		const building = await prisma.building.create({
+			data: {
+				name: "Office Building",
+			},
+		});
+
+		const userInBuilding = await prisma.userInBuilding.create({
+			data: {
+				user: { connect: { id: user.id } },
+				building: { connect: { id: building.id } },
+			},
+		});
+
+		const userFromDB = await prisma.user.findUnique({
+			where: { id: user.id },
+			include: { buildings: true },
+		});
+
+    console.log(userFromDB)
+
+		const buildingFromDB = await prisma.building.findUnique({
+			where: { id: building.id },
+			include: { users: true },
+		});
+
+    console.log(buildingFromDB)
+
+		expect(userFromDB.buildings).toHaveLength(1);
+		expect(userFromDB.buildings[0].id).toBe(building.id);
+
+		expect(buildingFromDB.users).toHaveLength(1);
+		expect(buildingFromDB.users[0].id).toBe(user.id);
+	});
+
+	test("AccessLog, User, and Building relation", async () => {
+		const user = await prisma.user.create({
+			data: {
+				name: "Jane Doe",
+			},
+		});
+
+		const building = await prisma.building.create({
+			data: {
+				name: "Apartment Complex",
+			},
+		});
+
+		const accessLog = await prisma.accessLog.create({
+			data: {
+				accessType: "IN",
+				accessStatus: "GRANTED",
+				user: { connect: { id: user.id } },
+				building: { connect: { id: building.id } },
+			},
+		});
+
+		const accessLogFromDB = await prisma.accessLog.findUnique({
+			where: { id: accessLog.id },
+			include: { user: true, building: true },
+		});
+
+		expect(accessLogFromDB.user.id).toBe(user.id);
+		expect(accessLogFromDB.building.id).toBe(building.id);
+	});
 });
