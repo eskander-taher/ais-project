@@ -232,14 +232,10 @@ describe("Model relations", () => {
 			include: { buildings: true },
 		});
 
-    console.log(userFromDB)
-
 		const buildingFromDB = await prisma.building.findUnique({
 			where: { id: building.id },
 			include: { users: true },
 		});
-
-    console.log(buildingFromDB)
 
 		expect(userFromDB.buildings).toHaveLength(1);
 		expect(userFromDB.buildings[0].id).toBe(building.id);

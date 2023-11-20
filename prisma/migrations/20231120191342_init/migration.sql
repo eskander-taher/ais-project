@@ -24,11 +24,10 @@ CREATE TABLE "Building" (
 
 -- CreateTable
 CREATE TABLE "UserInBuilding" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER,
-    "buildingId" INTEGER,
+    "userId" INTEGER NOT NULL,
+    "buildingId" INTEGER NOT NULL,
 
-    CONSTRAINT "UserInBuilding_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserInBuilding_pkey" PRIMARY KEY ("userId","buildingId")
 );
 
 -- CreateTable
@@ -43,9 +42,6 @@ CREATE TABLE "AccessLog" (
     CONSTRAINT "AccessLog_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
-
 -- AddForeignKey
 ALTER TABLE "UserInBuilding" ADD CONSTRAINT "UserInBuilding_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -53,7 +49,7 @@ ALTER TABLE "UserInBuilding" ADD CONSTRAINT "UserInBuilding_userId_fkey" FOREIGN
 ALTER TABLE "UserInBuilding" ADD CONSTRAINT "UserInBuilding_buildingId_fkey" FOREIGN KEY ("buildingId") REFERENCES "Building"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AccessLog" ADD CONSTRAINT "AccessLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "AccessLog" ADD CONSTRAINT "AccessLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AccessLog" ADD CONSTRAINT "AccessLog_buildingId_fkey" FOREIGN KEY ("buildingId") REFERENCES "Building"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "AccessLog" ADD CONSTRAINT "AccessLog_buildingId_fkey" FOREIGN KEY ("buildingId") REFERENCES "Building"("id") ON DELETE CASCADE ON UPDATE CASCADE;

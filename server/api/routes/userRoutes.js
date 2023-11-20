@@ -10,6 +10,14 @@ router.put("/:id", userController.updateById);
 router.delete("/:id", userController.deleteById);
 
 //user relations routes
-router.put("/:userId/buildings/:buildingId", userController.connectEntities)
+
+//add user to building
+router.post("/:userId/buildings/:buildingId", userController.connectEntities)
+
+//remove user from building
+router.delete("/:userId/buildings/:buildingId", userController.removeRelation)
+
+//get buildings of user
+
 
 module.exports = router;
