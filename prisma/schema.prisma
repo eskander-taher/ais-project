@@ -42,13 +42,12 @@ model UserInBuilding {
 model AccessLog {
   id           Int          @id @default(autoincrement())
   accessStatus AccessStatus @default(GRANTED)
-  accessType   AccessType
   accessTime   DateTime     @default(now())
 
-  userId     Int?
-  buildingId Int?
-  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  building   Building? @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  userId     Int
+  buildingId Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  building   Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
 }
 
 // Enum for access types

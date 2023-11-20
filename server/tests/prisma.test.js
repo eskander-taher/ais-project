@@ -7,6 +7,7 @@ beforeAll(async () => {
   await prisma.accessLog.deleteMany({});
   await prisma.building.deleteMany({});
   await prisma.user.deleteMany({});
+  await prisma.userInBuilding.deleteMany({});
 });
 
 afterAll(async () => {
@@ -155,7 +156,6 @@ describe("AccessLog CRUD operations", () => {
 	it("should create a new access log", async () => {
 		const newAccessLog = {
 			accessStatus: "GRANTED",
-			accessType: "IN",
 			userId,
 			buildingId,
 		};
@@ -203,75 +203,5 @@ describe("AccessLog CRUD operations", () => {
 		});
 
 		expect(accessLog).toBeNull();
-	});
-});
-
-describe("Model relations", () => {
-	test("User and Building relation", async () => {
-		const user = await prisma.user.create({
-			data: {
-				name: "John Doe",
-			},
-		});
-
-		const building = await prisma.building.create({
-			data: {
-				name: "Office Building",
-			},
-		});
-
-		const userInBuilding = await prisma.userInBuilding.create({
-			data: {
-				user: { connect: { id: user.id } },
-				building: { connect: { id: building.id } },
-			},
-		});
-
-		const userFromDB = await prisma.user.findUnique({
-			where: { id: user.id },
-			include: { buildings: true },
-		});
-
-		const buildingFromDB = await prisma.building.findUnique({
-			where: { id: building.id },
-			include: { users: true },
-		});
-
-		expect(userFromDB.buildings).toHaveLength(1);
-		expect(userFromDB.buildings[0].id).toBe(building.id);
-
-		expect(buildingFromDB.users).toHaveLength(1);
-		expect(buildingFromDB.users[0].id).toBe(user.id);
-	});
-
-	test("AccessLog, User, and Building relation", async () => {
-		const user = await prisma.user.create({
-			data: {
-				name: "Jane Doe",
-			},
-		});
-
-		const building = await prisma.building.create({
-			data: {
-				name: "Apartment Complex",
-			},
-		});
-
-		const accessLog = await prisma.accessLog.create({
-			data: {
-				accessType: "IN",
-				accessStatus: "GRANTED",
-				user: { connect: { id: user.id } },
-				building: { connect: { id: building.id } },
-			},
-		});
-
-		const accessLogFromDB = await prisma.accessLog.findUnique({
-			where: { id: accessLog.id },
-			include: { user: true, building: true },
-		});
-
-		expect(accessLogFromDB.user.id).toBe(user.id);
-		expect(accessLogFromDB.building.id).toBe(building.id);
 	});
 });

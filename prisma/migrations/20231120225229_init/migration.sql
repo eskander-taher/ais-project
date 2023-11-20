@@ -34,10 +34,9 @@ CREATE TABLE "UserInBuilding" (
 CREATE TABLE "AccessLog" (
     "id" SERIAL NOT NULL,
     "accessStatus" "AccessStatus" NOT NULL DEFAULT 'GRANTED',
-    "accessType" "AccessType" NOT NULL,
     "accessTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" INTEGER,
-    "buildingId" INTEGER,
+    "userId" INTEGER NOT NULL,
+    "buildingId" INTEGER NOT NULL,
 
     CONSTRAINT "AccessLog_pkey" PRIMARY KEY ("id")
 );

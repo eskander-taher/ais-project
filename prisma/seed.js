@@ -31,14 +31,12 @@ async function main() {
     {
       id: 1,
       accessStatus: "GRANTED",
-      accessType: "IN",
       userId: 1,
       buildingId: 1,
     },
     {
       id: 2,
       accessStatus: "DENIED",
-      accessType: "IN",
       userId: 2,
       buildingId: 2,
     },

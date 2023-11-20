@@ -9,7 +9,7 @@ router.get("/:id", userController.getOneById);
 router.put("/:id", userController.updateById);
 router.delete("/:id", userController.deleteById);
 
-//user relations routes
+//relations 
 
 //get buildings of user
 router.get("/:userId/buildings", userController.populate)

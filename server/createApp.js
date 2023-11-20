@@ -9,9 +9,9 @@ function createApp() {
 	app.use(express.urlencoded({ extended: false }));
 
 	// Resources routes
-	app.use("/api/users", require("../api/routes/userRoutes"));
-	app.use("/api/buildings", require("../api/routes/buildingRoutes"));
-	app.use("/api/accesslogs", require("../api/routes/accessLogRoutes"));
+	app.use("/api/users", require("./api/routes/userRoutes"));
+	app.use("/api/buildings", require("./api/routes/buildingRoutes"));
+	app.use("/api/access", require("./api/routes/accessRoutes"));
 
 	return app;
 }
