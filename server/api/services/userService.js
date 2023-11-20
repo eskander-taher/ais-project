@@ -84,20 +84,20 @@ async function removeRelation(userId, buildingId) {
 	}
 }
 
-// async function populate(userId, childEntity) {
-// 	try {
-// 		return await prisma.user.findUnique({
-// 			where: {
-// 				id: userId,
-// 			},
-// 			include: {
-// 				[childEntity]: true,
-// 			},
-// 		});
-// 	} catch (error) {
-// 		throw error;
-// 	}
-// }
+async function populate(userId) {
+	try {
+		return await prisma.user.findUnique({
+			where: {
+				id: userId,
+			},
+			include: {
+				buildings: { include: { building: true } },
+			},
+		});
+	} catch (error) {
+		throw error;
+	}
+}
 
 module.exports = {
 	createOne,
@@ -107,5 +107,5 @@ module.exports = {
 	deleteById,
 	connectEntities,
 	removeRelation,
-	// populate,
+	populate,
 };

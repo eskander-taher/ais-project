@@ -11,13 +11,16 @@ router.delete("/:id", userController.deleteById);
 
 //user relations routes
 
+//get buildings of user
+router.get("/:userId/buildings", userController.populate)
+
 //add user to building
 router.post("/:userId/buildings/:buildingId", userController.connectEntities)
 
 //remove user from building
 router.delete("/:userId/buildings/:buildingId", userController.removeRelation)
 
-//get buildings of user
+
 
 
 module.exports = router;

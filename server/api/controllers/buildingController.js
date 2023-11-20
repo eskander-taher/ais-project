@@ -11,12 +11,11 @@ async function createOne(req, res) {
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
-
+ 
 async function getAll(req, res) {
 	try {
 		const result = await buildingService.getAll();
@@ -27,8 +26,7 @@ async function getAll(req, res) {
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
@@ -51,8 +49,7 @@ async function getOneById(req, res) {
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
@@ -70,8 +67,7 @@ async function updateById(req, res) {
 		console.error(error);
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
@@ -84,39 +80,36 @@ async function deleteById(req, res) {
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
 
 async function connectEntities(req, res) {
 	try {
-		const parentId = parseInt(req.params.parentId, 10);
-		const childId = parseInt(req.params.childId, 10);
-		const childEntity = req.params.childEntity;
+		const userId = parseInt(req.params.userId, 10);
+		const buildingId = parseInt(req.params.buildingId, 10);
 
-		const result = await buildingService.connectEntities(parentId, childEntity, childId);
+		const result = await buildingService.connectEntities(userId, buildingId);
 		res.status(200).json({
 			success: true,
 			data: result,
 		});
 	} catch (error) {
+
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
 
 async function removeRelation(req, res) {
 	try {
-		const parentId = parseInt(req.params.parentId, 10);
-		const childId = parseInt(req.params.childId, 10);
-		const childEntity = req.params.childEntity;
+		const userId = parseInt(req.params.userId, 10);
+		const buildingId = parseInt(req.params.buildingId, 10);
 
-		const result = await buildingService.removeRelation(parentId, childEntity, childId);
+		const result = await buildingService.removeRelation(userId, buildingId);
 		res.status(200).json({
 			success: true,
 			data: result,
@@ -124,18 +117,16 @@ async function removeRelation(req, res) {
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }
 
 async function populate(req, res) {
 	try {
-		const parentId = parseInt(req.params.parentId, 10);
-		const childEntity = req.params.childEntity;
+		const buildingId = parseInt(req.params.buildingId, 10);
+		const result = await buildingService.populate(buildingId);
 
-		const result = await buildingService.populate(parentId, childEntity);
 		res.status(200).json({
 			success: true,
 			data: result,
@@ -143,8 +134,7 @@ async function populate(req, res) {
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Internal Server Error",
-			error: error,
+			error: error.message,
 		});
 	}
 }

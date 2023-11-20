@@ -11,7 +11,7 @@ function createApp() {
 	// Resources routes
 	app.use("/api/users", require("../api/routes/userRoutes"));
 	app.use("/api/buildings", require("../api/routes/buildingRoutes"));
-	app.use("/api/accesslogs", require("../api/routes/buildingRoutes"));
+	app.use("/api/accesslogs", require("../api/routes/accessLogRoutes"));
 
 	return app;
 }

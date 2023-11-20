@@ -122,24 +122,22 @@ async function removeRelation(req, res) {
 	}
 }
 
-// async function populate(req, res) {
-// 	try {
-// 		const parentId = parseInt(req.params.parentId, 10);
-// 		const childEntity = req.params.childEntity;
+async function populate(req, res) {
+	try {
+		const userId = parseInt(req.params.userId, 10);
+		const result = await userService.populate(userId);
 
-// 		const result = await userService.populate(parentId, childEntity);
-// 		res.status(200).json({
-// 			success: true,
-// 			data: result,
-// 		});
-// 	} catch (error) {
-// 		res.status(500).json({
-// 			success: false,
-//
-// 			error: error.message,
-// 		});
-// 	}
-// }
+		res.status(200).json({
+			success: true,
+			data: result,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			error: error.message,
+		});
+	}
+}
 
 module.exports = {
 	createOne,
@@ -149,5 +147,5 @@ module.exports = {
 	deleteById,
 	connectEntities,
 	removeRelation,
-	// populate,
+	populate,
 };
