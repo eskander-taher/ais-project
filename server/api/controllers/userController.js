@@ -3,6 +3,14 @@ const userService = require("../services/userService");
 async function createOne(req, res) {
 	try {
 		const data = req.body;
+
+		if (!data.name) {
+			res.status(400).json({
+				success: false,
+				error: "name is missing",
+			});
+		}
+		
 		const result = await userService.createOne(data);
 		res.status(201).json({
 			success: true,
@@ -14,7 +22,7 @@ async function createOne(req, res) {
 			error: error.message,
 		});
 	}
-}
+} 
  
 async function getAll(req, res) {
 	try {

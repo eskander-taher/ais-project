@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const swagger = require("./docs/swagger");
 
 function createApp() {
 	// Express app setup: Enable CORS, parse requests
@@ -13,6 +14,7 @@ function createApp() {
 	app.use("/api/buildings", require("./api/routes/buildingRoutes"));
 	app.use("/api/access", require("./api/routes/accessRoutes"));
 
+	swagger(app);
 	return app;
 }
 

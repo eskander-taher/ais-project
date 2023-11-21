@@ -1,0 +1,308 @@
+openapi: 3.1.0
+info:
+  title: Access Control System API
+  description: An access control system api that manages users access to buildings and create access logs
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/
+    description: Internal staging server for testing
+paths:
+  /users:
+    get:
+      summary: Get a list of users
+      description: Retrieve information about all users.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  - id: 5
+                    name: user 1
+                    createdAt: "2023-11-20T23:02:27.255Z"
+                  - id: 6
+                    name: user 2
+                    createdAt: "2023-11-21T00:34:46.659Z"
+        '404':
+          description: Users not found
+
+    post:
+      summary: Create a new user
+      description: Add a new user to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: user 3
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 7
+                  name: user 3
+                  createdAt: "2023-11-21T00:37:27.592Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              example:
+                success: false
+                error: Argument `name` is missing.
+
+  /users/{userId}:
+    get:
+      summary: Get a specific user
+      description: Retrieve information about a specific user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 5
+                  name: user 1
+                  createdAt: "2023-11-20T23:02:27.255Z"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              example:
+                success: false
+                message: Not found
+    
+    put:
+      summary: update a specific user
+      description: update information about a specific user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to retrieve
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: user 3 updated
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 5
+                  name: user 3 updated
+                  createdAt: "2023-11-20T23:02:27.255Z"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              example:
+                success: false
+                message: Not found
+    
+    delete:
+      summary: delete a specific user
+      description: delete information about a specific user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to retrieve
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Successful response
+        '500':
+          description: User not found
+          content:
+            application/json:
+              example:
+                success: false
+                message: Recored to delete does not exist
+  
+  /buildings:
+    get:
+      summary: Get a list of buildings
+      description: Retrieve information about all buildings.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  - id: 5
+                    name: building 1
+                    createdAt: "2023-11-20T23:02:27.255Z"
+                  - id: 6
+                    name: building 2
+                    createdAt: "2023-11-21T00:34:46.659Z"
+        '404':
+          description: Buildings not found
+
+    post:
+      summary: Create a new building
+      description: Add a new building to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: building 3
+      responses:
+        '201':
+          description: Building created successfully
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 7
+                  name: building 3
+                  createdAt: "2023-11-21T00:37:27.592Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              example:
+                success: false
+                error: Argument `name` is missing.
+
+  /buildings/{buildingId}:
+    get:
+      summary: Get a specific building
+      description: Retrieve information about a specific building.
+      parameters:
+        - name: buildingId
+          in: path
+          required: true
+          description: ID of the building to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 5
+                  name: building 1
+                  createdAt: "2023-11-20T23:02:27.255Z"
+        '404':
+          description: Building not found
+          content:
+            application/json:
+              example:
+                success: false
+                message: Not found
+    
+    put:
+      summary: update a specific building
+      description: update information about a specific building.
+      parameters:
+        - name: buildingId
+          in: path
+          required: true
+          description: ID of the building to retrieve
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: building 3 updated
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 5
+                  name: building 3 updated
+                  createdAt: "2023-11-20T23:02:27.255Z"
+        '404':
+          description: Building not found
+          content:
+            application/json:
+              example:
+                success: false
+                message: Not found
+    
+    delete:
+      summary: delete a specific building
+      description: delete information about a specific building.
+      parameters:
+        - name: buildingId
+          in: path
+          required: true
+          description: ID of the building to retrieve
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Successful response
+        '500':
+          description: Building not found
+          content:
+            application/json:
+              example:
+                success: false
+                message: Recored to delete does not exist
+             
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The user's ID
+        name:
+          type: string
+          description: The user's name
+        createdAt:
+          type: string
+          format: date-time
+          description: The user's creation timestamp
+    
+    Building:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The building's ID
+        name:
+          type: string
+          description: The building's name
+        createdAt:
+          type: string
+          format: date-time
+          description: The building's creation timestamp

@@ -85,6 +85,23 @@ async function deleteById(req, res) {
 	}
 }
 
+async function populate(req, res) {
+	try {
+		const buildingId = parseInt(req.params.buildingId, 10);
+		const result = await buildingService.populate(buildingId);
+
+		res.status(200).json({
+			success: true,
+			data: result,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			error: error.message,
+		});
+	}
+}
+
 async function connectEntities(req, res) {
 	try {
 		const userId = parseInt(req.params.userId, 10);
@@ -122,22 +139,7 @@ async function removeRelation(req, res) {
 	}
 }
 
-async function populate(req, res) {
-	try {
-		const buildingId = parseInt(req.params.buildingId, 10);
-		const result = await buildingService.populate(buildingId);
 
-		res.status(200).json({
-			success: true,
-			data: result,
-		});
-	} catch (error) {
-		res.status(500).json({
-			success: false,
-			error: error.message,
-		});
-	}
-}
 
 module.exports = {
 	createOne,
