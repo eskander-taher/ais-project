@@ -99,7 +99,7 @@ async function connectEntities(req, res) {
 		const buildingId = parseInt(req.params.buildingId, 10);
 
 		const result = await userService.connectEntities(userId, buildingId);
-		res.status(200).json({
+		res.status(201).json({
 			success: true,
 			data: result,
 		});
