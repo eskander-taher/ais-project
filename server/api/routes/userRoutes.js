@@ -21,6 +21,4 @@ router.post("/:userId/buildings/:buildingId", userController.connectEntities)
 router.delete("/:userId/buildings/:buildingId", userController.removeRelation)
 
 
-
-
 module.exports = router;

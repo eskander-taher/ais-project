@@ -67,10 +67,17 @@ async function updateById(req, res) {
 		const id = parseInt(req.params.id, 10);
 		const updatedData = req.body;
 		const result = await userService.updateById(id, updatedData);
-		res.status(200).json({
-			success: true,
-			data: result,
-		});
+		if (!result) {
+			res.status(404).json({
+				success: false,
+				message: "Not found",
+			});
+		} else {
+			res.status(200).json({
+				success: true,
+				data: result,
+			});
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({
@@ -83,6 +90,13 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
 	try {
 		const id = parseInt(req.params.id, 10);
+		const result = await userService.getOneById(id);
+		if (!result) {
+			res.status(404).json({
+				success: false,
+				message: "Not found",
+			});
+		}
 		await userService.deleteById(id);
 		res.status(204).end();
 	} catch (error) {

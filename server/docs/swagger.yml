@@ -4,7 +4,7 @@ info:
   description: An access control system api that manages users access to buildings and create access logs
   version: 1.0.0
 servers:
-  - url: http://localhost:5000/api/
+  - url: http://localhost:5000/api
     description: Internal staging server for testing
 paths:
   /users:
@@ -19,14 +19,19 @@ paths:
               example:
                 success: true
                 data:
-                  - id: 5
+                  - id: 1
                     name: user 1
                     createdAt: "2023-11-20T23:02:27.255Z"
-                  - id: 6
+                  - id: 2
                     name: user 2
                     createdAt: "2023-11-21T00:34:46.659Z"
-        '404':
-          description: Users not found
+        '500': 
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                success: false
+                message: error message
 
     post:
       summary: Create a new user
@@ -36,7 +41,7 @@ paths:
         content:
           application/json:
             example:
-              name: user 3
+              name: user 1
       responses:
         '201':
           description: User created successfully
@@ -45,23 +50,23 @@ paths:
               example:
                 success: true
                 data:
-                  id: 7
-                  name: user 3
+                  id: 1
+                  name: user 1
                   createdAt: "2023-11-21T00:37:27.592Z"
-        '400':
-          description: Bad request
+        '500': 
+          description: Internal server error
           content:
             application/json:
               example:
                 success: false
-                error: Argument `name` is missing.
+                message: error message
 
-  /users/{userId}:
+  /users/{id}:
     get:
       summary: Get a specific user
       description: Retrieve information about a specific user.
       parameters:
-        - name: userId
+        - name: id
           in: path
           required: true
           description: ID of the user to retrieve
@@ -85,15 +90,22 @@ paths:
               example:
                 success: false
                 message: Not found
+        '500': 
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                success: false
+                message: error message
     
     put:
       summary: update a specific user
       description: update information about a specific user.
       parameters:
-        - name: userId
+        - name: id
           in: path
           required: true
-          description: ID of the user to retrieve
+          description: ID of the user to update
           schema:
             type: integer
       requestBody:
@@ -101,7 +113,7 @@ paths:
         content:
           application/json:
             example:
-              name: user 3 updated
+              name: user 1 updated
       responses:
         '200':
           description: Successful response
@@ -110,22 +122,29 @@ paths:
               example:
                 success: true
                 data:
-                  id: 5
-                  name: user 3 updated
+                  id: 1
+                  name: user 1 updated
                   createdAt: "2023-11-20T23:02:27.255Z"
         '404':
-          description: User not found
+          description: user Not found
           content:
             application/json:
               example:
                 success: false
                 message: Not found
+        '500': 
+            description: internal server error
+            content:
+            application/json:
+              example:
+                success: false
+                message: error message
     
     delete:
-      summary: delete a specific user
+      summary: Delete a specific user
       description: delete information about a specific user.
       parameters:
-        - name: userId
+        - name: id
           in: path
           required: true
           description: ID of the user to retrieve
@@ -134,13 +153,20 @@ paths:
       responses:
         '204':
           description: Successful response
-        '500':
+        '404':
           description: User not found
           content:
             application/json:
               example:
                 success: false
-                message: Recored to delete does not exist
+                message: Not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                success: false
+                message: error message
   
   /buildings:
     get:
@@ -154,14 +180,12 @@ paths:
               example:
                 success: true
                 data:
-                  - id: 5
+                  - id: 1
                     name: building 1
                     createdAt: "2023-11-20T23:02:27.255Z"
-                  - id: 6
+                  - id: 1
                     name: building 2
                     createdAt: "2023-11-21T00:34:46.659Z"
-        '404':
-          description: Buildings not found
 
     post:
       summary: Create a new building
