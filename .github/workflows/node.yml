@@ -22,7 +22,7 @@ jobs:
       - name: Install PostgreSQL
         run: |
           sudo apt update
-          sudo apt install postgresql postgresql-contrib
+          sudo apt install -y postgresql postgresql-contrib
 
       - name: Set up PostgreSQL Database
         run: |
@@ -32,7 +32,7 @@ jobs:
           sudo -u postgres psql -c "ALTER ROLE eskander SET default_transaction_isolation TO 'read committed';"
           sudo -u postgres psql -c "ALTER ROLE eskander SET timezone TO 'UTC';"
           sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE acsdb TO eskander;"
-          
+
       - name: Install dependencies and build
         run: |
           npm i
