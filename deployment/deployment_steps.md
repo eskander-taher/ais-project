@@ -11,4 +11,5 @@
 11. run config command from github instructions
 12. anstall and run ./svc.sh "sudo ./svc.sh install sudo ./svc.sh start"
 
+sudo visudo -f /etc/sudoers.d/acs
 acs ALL=(ALL) NOPASSWD: /usr/sbin/service nginx start,/usr/sbin/service nginx stop,/usr/sbin/service nginx restart

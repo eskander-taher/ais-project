@@ -24,7 +24,7 @@ jobs:
 
       - name: Install PostgreSQL
         run: |
-          echo "${{ env.SUDO_PASSWORD }}" | sudo -E -S apt update
+          echo "123" | sudo -S apt update
           sudo apt install -y postgresql postgresql-contrib
 
       - name: Set up PostgreSQL Database
