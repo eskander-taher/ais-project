@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  SUDO_PASSWORD: 123
+
 jobs:
   build:
     runs-on: self-hosted
@@ -21,7 +24,7 @@ jobs:
 
       - name: Install PostgreSQL
         run: |
-          sudo apt update
+          echo "${{ env.SUDO_PASSWORD }}" | sudo -E -S apt update
           sudo apt install -y postgresql postgresql-contrib
 
       - name: Set up PostgreSQL Database
