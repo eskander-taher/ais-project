@@ -1,24 +1,28 @@
-import { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import "./App.css";
 
-import List from "./components/List";
-import useApi from "./hooks/useApi";
+import NavBar from "./components/NavBar";
 
-function App() {
-	const { data, loading, error, fetchData, postData, putData, deleteData } = useApi("buildings");
+import Dashboard from "./pages/dashboard/Dashboard";
+import Users from "./pages/users/Users";
+import Buildings from "./pages/buildings/Buildings";
 
-	let renderd = data ? <List data={data} /> : <div>Loading...</div>;
-
-	async function handleDelete() {
-		await deleteData(1);
-		await fetchData();
-	}
-
+const App = () => {
 	return (
-		<div className="container">
-			<button onClick={handleDelete}>Delete</button>
-			<div>{renderd}</div>
-		</div>
+		<Router>
+			<div className="app-container">
+				<NavBar />
+				<div className="page-container">
+					<Routes>
+						<Route path="/" element={<Dashboard />} />
+						<Route path="/users" element={<Users />} />
+						<Route path="/buildings" element={<Buildings />} />
+					</Routes>
+				</div>
+			</div>
+		</Router>
 	);
-}
+};
 
 export default App;

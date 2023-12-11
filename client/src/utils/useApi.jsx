@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-let API_BASE_URL = "http://localhost:5000/api/";
+let API_BASE_URL = "https://6575133bb2fbb8f6509ce20f.mockapi.io/";
 
 // Define the useApi hook
 const useApi = (source, initialData = null) => {

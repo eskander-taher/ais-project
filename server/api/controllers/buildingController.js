@@ -3,6 +3,14 @@ const buildingService = require("../services/buildingService");
 async function createOne(req, res) {
 	try {
 		const data = req.body;
+
+		if (!data.name) {
+			res.status(400).json({
+				success: false,
+				error: "name is missing",
+			});
+		}
+
 		const result = await buildingService.createOne(data);
 		res.status(201).json({
 			success: true,
@@ -59,10 +67,17 @@ async function updateById(req, res) {
 		const id = parseInt(req.params.id, 10);
 		const updatedData = req.body;
 		const result = await buildingService.updateById(id, updatedData);
-		res.status(200).json({
-			success: true,
-			data: result,
-		});
+		if (!result) {
+			res.status(404).json({
+				success: false,
+				message: "Not found",
+			});
+		} else {
+			res.status(200).json({
+				success: true,
+				data: result,
+			});
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({
@@ -75,6 +90,13 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
 	try {
 		const id = parseInt(req.params.id, 10);
+		const result = buildingService.getOneById(id);
+		if (!result) {
+			res.status(404).json({
+				success: false,
+				message: "Not found",
+			});
+		}
 		await buildingService.deleteById(id);
 		res.status(204).end();
 	} catch (error) {

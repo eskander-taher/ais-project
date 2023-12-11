@@ -186,6 +186,13 @@ paths:
                   - id: 1
                     name: building 2
                     createdAt: "2023-11-21T00:34:46.659Z"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                success: false
+                message: error message
 
     post:
       summary: Create a new building
@@ -195,7 +202,7 @@ paths:
         content:
           application/json:
             example:
-              name: building 3
+              name: building 1
       responses:
         '201':
           description: Building created successfully
@@ -204,16 +211,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 7
-                  name: building 3
+                  id: 1
+                  name: building 1
                   createdAt: "2023-11-21T00:37:27.592Z"
-        '400':
-          description: Bad request
+        '500':
+          description: Internal server error
           content:
             application/json:
               example:
                 success: false
-                error: Argument `name` is missing.
+                message: error message
 
   /buildings/{buildingId}:
     get:
@@ -244,6 +251,13 @@ paths:
               example:
                 success: false
                 message: Not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                success: false
+                message: error message
     
     put:
       summary: update a specific building
@@ -279,6 +293,13 @@ paths:
               example:
                 success: false
                 message: Not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                success: false
+                message: error message
     
     delete:
       summary: delete a specific building
@@ -294,12 +315,12 @@ paths:
         '204':
           description: Successful response
         '500':
-          description: Building not found
+          description: Internal server error
           content:
             application/json:
               example:
                 success: false
-                message: Recored to delete does not exist
+                message: error message
              
 components:
   schemas:
