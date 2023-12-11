@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [master]
 
-env:
-  SUDO_PASSWORD: 123
-
 jobs:
   build:
     runs-on: self-hosted
@@ -21,20 +18,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
-
-      - name: Install PostgreSQL
-        run: |
-          echo "123" | sudo -S apt update
-          sudo apt install -y postgresql postgresql-contrib
-
-      - name: Set up PostgreSQL Database
-        run: |
-          sudo -u postgres psql -c "CREATE DATABASE acsdb;"
-          sudo -u postgres psql -c "CREATE USER eskander WITH PASSWORD '123';"
-          sudo -u postgres psql -c "ALTER ROLE eskander SET client_encoding TO 'utf8';"
-          sudo -u postgres psql -c "ALTER ROLE eskander SET default_transaction_isolation TO 'read committed';"
-          sudo -u postgres psql -c "ALTER ROLE eskander SET timezone TO 'UTC';"
-          sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE acsdb TO eskander;"
 
       - name: Install dependencies and build
         run: |
