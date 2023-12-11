@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -13,10 +13,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Use Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
+
+      - name: Install PostgreSQL
+        run: |
+          sudo apt update
+          sudo apt install postgresql postgresql-contrib
+
+      - name: Set up PostgreSQL Database
+        run: |
+          sudo -u postgres psql -c "CREATE DATABASE acsdb;"
+          sudo -u postgres psql -c "CREATE USER eskander WITH PASSWORD '123';"
+          sudo -u postgres psql -c "ALTER ROLE eskander SET client_encoding TO 'utf8';"
+          sudo -u postgres psql -c "ALTER ROLE eskander SET default_transaction_isolation TO 'read committed';"
+          sudo -u postgres psql -c "ALTER ROLE eskander SET timezone TO 'UTC';"
+          sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE acsdb TO eskander;"
+          
       - name: Install dependencies and build
         run: |
           npm i
