@@ -1,31 +1,25 @@
 // Dashboard.js
 
 import React, { useState, useEffect } from "react";
-import AccessLogList from "./AccessLogList"; // Assuming you have an AccessLogTable component
+import AccessLogList from "./AccessLogList";
+import useApi from "../../utils/useApi";
+import { USERS_API_URL, BUILDINGS_API_URL } from '../../utils/constants';
 
 const Dashboard = () => {
 	// Mock data for the dashboard
-	const [userCount, setUserCount] = useState(0);
-	const [buildingCount, setBuildingCount] = useState(0);
-
-	useEffect(() => {
-		// Fetch user count and building count from your API
-		// Update the state with the fetched data
-		// Example:
-		// setUserCount(fetchedUserCount);
-		// setBuildingCount(fetchedBuildingCount);
-	}, []);
+	const { data: users } = useApi(USERS_API_URL);
+	const { data: buildings } = useApi(BUILDINGS_API_URL);
 
 	return (
 		<div className="dashboard">
 			<div className="square users">
 				<h2>Users</h2>
-				<p>{userCount}</p>
+				<h2>{users ? users.length : 0}</h2>
 			</div>
 
 			<div className="square buildings">
 				<h2>Buildings</h2>
-				<p>{buildingCount}</p>
+				<h2>{buildings ? buildings.length : 0}</h2>
 			</div>
 
 			<div className="access-log">

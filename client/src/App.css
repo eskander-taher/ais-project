@@ -63,7 +63,7 @@ a:hover {
 	font-size: 24px;
 }
 
-/* Add these styles to your existing CSS file */
+/* title*/
 
 .page-title {
 	font-size: 28px;
@@ -152,6 +152,10 @@ a:hover {
 	cursor: pointer;
 }
 
+.delete-btn{
+	background-color: red; /* Green */
+}
+
 .add-button:hover {
 	background-color: #45a049; /* Darker green on hover */
 }
@@ -217,8 +221,7 @@ button {
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
+	margin-inline: 5px;
 }
 
-button:hover {
-	background-color: #45a049;
-}
+

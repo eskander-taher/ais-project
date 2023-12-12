@@ -1,11 +1,11 @@
-export default function UserList() {
-	const users = [
-		{
-			id: 1,
-			name: "ali",
-			createdAt: "2022-02-01-12-12-12",
-		},
-	];
+export default function UserList({ data, loading, error, onDeleteItem }) {
+	if (loading) {
+		return <p>Loading...</p>;
+	}
+
+	if (error) {
+		return <p>Error: {error.message}</p>;
+	}
 	return (
 		<table className="table">
 			<thead>
@@ -16,11 +16,14 @@ export default function UserList() {
 				</tr>
 			</thead>
 			<tbody>
-				{users.map((user) => (
+				{data.map((user) => (
 					<tr key={user.id}>
 						<td>{user.id}</td>
 						<td>{user.name}</td>
 						<td>{user.createdAt}</td>
+						<td>
+							<button className="delete-btn" onClick={() => onDeleteItem(user.id)}>Delete</button>
+						</td>
 					</tr>
 				))}
 			</tbody>

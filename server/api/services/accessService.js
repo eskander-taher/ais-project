@@ -52,7 +52,10 @@ async function createAccessLog(data) {
 
 async function getAll() {
 	try {
-		return await prisma.accessLog.findMany({});
+		return await prisma.accessLog.findMany({include: {
+			user: true,
+			building: true,
+		  },});
 	} catch (error) {
 		throw error;
 	}

@@ -1,41 +1,32 @@
-// AccessLogTable.js
-
 import React, { useState, useEffect } from "react";
+import useApi from "../../utils/useApi";
+import { ACCESSLOG_API_URL } from "../../utils/constants";
 
 const AccessLogTable = () => {
 	// Mock data for the access log table
-	const [accessLogs, setAccessLogs] = useState([]);
+	const { data, loading, error } = useApi(ACCESSLOG_API_URL);
 
-	useEffect(() => {
-		// Fetch access logs from your API
-		// Update the state with the fetched data
-		// Example:
-		const fetchedAccessLogs = [
-			{
-				id: 1,
-				userName: "eskander",
-				buildingName: "main building",
-				timestamp: "2022-02-01-12-12-12"
-			}
-		]
-		setAccessLogs(fetchedAccessLogs);
-	}, []);
-
+	if (loading) {
+		return <p>Loading...</p>;
+	}
+	if (error) {
+		return <p>Error: {error.message}</p>;
+	}
 	return (
 		<table className="table">
 			<thead>
 				<tr>
-					<th>User ID</th>
+					<th>User</th>
 					<th>Building ID</th>
-					<th>Timestamp</th>
+					<th>Access Time</th>
 				</tr>
 			</thead>
 			<tbody>
-				{accessLogs.map((log) => (
+				{data.map((log) => (
 					<tr key={log.id}>
-						<td>{log.userName}</td>
-						<td>{log.buildingName}</td>
-						<td>{log.timestamp}</td>
+						<td>{log.user.name}</td>
+						<td>{log.building.name}</td>
+						<td>{log.accessTime}</td>
 					</tr>
 				))}
 			</tbody>

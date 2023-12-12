@@ -4,7 +4,7 @@ export default function NavBar() {
 	return (
 		<nav>
 			<div className="logo">
-				<h1>eskander</h1>
+				<h1>Access Control System</h1>
 			</div>
 			<ul>
 				<li>

@@ -1,26 +1,33 @@
-export default function BuildingList() {
-	const buildings = [
-		{
-			id: 1,
-			name: "ali",
-			createdAt: "2022-02-01-12-12-12",
-		},
-	];
+export default function BuildingList({ data, loading, error, onDeleteItem }) {
+	if (loading) {
+		return <p>Loading...</p>;
+	}
+
+	if (error) {
+		return <p>Error: {error.message}</p>;
+	}
+
 	return (
 		<table className="table">
 			<thead>
 				<tr>
 					<th>Building ID</th>
 					<th>Building Name</th>
-					<th>CreatedAt</th>
 				</tr>
 			</thead>
 			<tbody>
-				{buildings.map((building) => (
+				{data.map((building) => (
 					<tr key={building.id}>
 						<td>{building.id}</td>
 						<td>{building.name}</td>
-						<td>{building.createdAt}</td>
+						<td>
+							<button
+								className="delete-btn"
+								onClick={() => onDeleteItem(building.id)}
+							>
+								Delete
+							</button>
+						</td>
 					</tr>
 				))}
 			</tbody>
