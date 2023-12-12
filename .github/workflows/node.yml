@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: self-hosted
 
-    env:
-      DATABASE_URL: "postgresql://postgres:admin@localhost:5432/acsdb"
-      PORT: 5000
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
