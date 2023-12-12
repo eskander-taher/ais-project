@@ -33,3 +33,5 @@ jobs:
 
       - name: Run Jest tests
         run: npx jest ./server/tests/prisma.test.js
+      - name: seed db
+        run: npx prisma db seed
