@@ -6,7 +6,7 @@ import useApi from "../../utils/useApi";
 export default function Users() {
 	const [isAddItemModalOpen, setAddItemModalOpen] = useState(false);
 
-	const { data, error, loading, fetchData, postData, putData, deleteData } = useApi("http://localhost:5000/users");
+	const { data, error, loading, fetchData, postData, putData, deleteData } = useApi("http://144.126.192.45/users");
 
 	const handleAddItemClick = () => {
 		setAddItemModalOpen(true);
