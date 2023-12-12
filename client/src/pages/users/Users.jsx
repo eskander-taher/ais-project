@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserList from "./UserList";
 import AddItemModal from "../../components/AddItemModal";
+import useApi from "../../utils/useApi";
 
 export default function Users() {
 	const [isAddItemModalOpen, setAddItemModalOpen] = useState(false);
+
+	const { data, error, loading, fetchData, postData, putData, deleteData } = useApi("http://localhost:5000/users");
 
 	const handleAddItemClick = () => {
 		setAddItemModalOpen(true);
@@ -19,6 +22,8 @@ export default function Users() {
 		// Close the modal
 		handleCloseModal();
 	};
+
+	console.log(data)
 	return (
 		<div>
 			<button className="add-button" onClick={handleAddItemClick}>

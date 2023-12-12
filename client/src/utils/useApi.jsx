@@ -1,79 +1,66 @@
-// Import necessary dependencies
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-let API_BASE_URL = "https://6575133bb2fbb8f6509ce20f.mockapi.io/";
+const useApi = (url) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-// Define the useApi hook
-const useApi = (source, initialData = null) => {
-	let initialUrl = API_BASE_URL + source;
-	// State variables
-	const [data, setData] = useState(initialData);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(url);
+      setData(response.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	// Function to perform HTTP request
-	const fetchData = async (url) => {
-		try {
-			setLoading(true);
-			const response = await axios.get(url);
-			setData(response.data);
-		} catch (error) {
-			setError(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+  const postData = async (newData) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(url, newData);
+      setData(response.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	// useEffect to fetch data when the component mounts or when the URL changes
-	useEffect(() => {
-		if (initialUrl) {
-			fetchData(initialUrl);
-		}
-	}, [initialUrl]);
+  const putData = async (id, updatedData) => {
+    try {
+      setLoading(true);
+      const response = await axios.put(`${url}/${id}`, updatedData);
+      setData(response.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	// Function to handle POST request
-	const postData = async (url, newData) => {
-		try {
-			setLoading(true);
-			const response = await axios.post(url, newData);
-			setData(response.data);
-		} catch (error) {
-			setError(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+  const deleteData = async (id) => {
+    try {
+      setLoading(true);
+      await axios.delete(`${url}/${id}`);
+      // Assuming successful deletion, you may want to handle this differently based on your API behavior
+      setData(null);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	// Function to handle PUT request
-	const putData = async (url, updatedData) => {
-		try {
-			setLoading(true);
-			const response = await axios.put(url, updatedData);
-			setData(response.data);
-		} catch (error) {
-			setError(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-	// Function to handle DELETE request
-	const deleteData = async (id) => {
-		let url = initialUrl + "/" + id;
-		try {
-			setLoading(true);
-			await axios.delete(url);
-			setData(null); // Assuming a successful deletion means empty data
-		} catch (error) {
-			setError(error);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	// Return the state variables and functions
-	return { data, loading, error, fetchData, postData, putData, deleteData };
+  return { data, error, loading, fetchData, postData, putData, deleteData };
 };
 
 export default useApi;
