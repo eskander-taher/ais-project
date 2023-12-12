@@ -9,10 +9,15 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-  
+
+    env:
+      DATABASE_URL: "postgresql://postgres:admin@localhost:5432/acsdb"
+      PORT: 5000
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Use Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v1
         with:
@@ -29,3 +34,6 @@ jobs:
           pm2 start ./server/index.js
           pm2 save 
           sudo service nginx restart
+
+      - name: Run Jest tests
+        run: npx jest ./server/tests/prisma.test.js
