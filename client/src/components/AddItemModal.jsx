@@ -8,19 +8,15 @@ const AddItemModal = ({ isOpen, onClose, onAddItem }) => {
 	};
 
 	const handleAddClick = () => {
-		// Perform any validation or additional logic here
 		if (itemName.trim() === "") {
 			alert("Item name cannot be empty!");
 			return;
 		}
 
-		// Call the onAddItem callback with the new item data
 		onAddItem({
 			name: itemName,
-			// Add more properties as needed
 		});
-
-		// Clear the input field
+		
 		setItemName("");
 
 		// Close the modal

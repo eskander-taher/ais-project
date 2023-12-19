@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import AccessLogList from "./AccessLogList";
 import useApi from "../../utils/useApi";
-import { USERS_API_URL, BUILDINGS_API_URL } from '../../utils/constants';
+import { USERS_API_URL, BUILDINGS_API_URL, ACCESSLOG_API_URL } from "../../utils/constants";
 
 const Dashboard = () => {
 	// Mock data for the dashboard
@@ -24,7 +24,7 @@ const Dashboard = () => {
 
 			<div className="access-log">
 				<h2>Access Logs</h2>
-				<AccessLogList />
+				<AccessLogList api_url={ACCESSLOG_API_URL} />
 			</div>
 		</div>
 	);

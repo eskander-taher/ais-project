@@ -3,44 +3,10 @@ import { useState, useEffect } from "react";
 import AddItemModal from "../../components/AddItemModal";
 import useApi from "../../utils/useApi";
 import { BUILDINGS_API_URL } from "../../utils/constants";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function BuildingList({ data, loading, error, onDeleteItem }) {
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
-
-  return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Building ID</th>
-          <th>Building Name</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((building) => (
-          <tr key={building.id}>
-            <td>{building.id}</td>
-            <td>{building.name}</td>
-            <td>
-              <button
-                className="delete-btn"
-                onClick={() => onDeleteItem(building.id)}
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
+import List from "../../components/List";
 
 export default function Buildings() {
   const { data, error, loading, postData, deleteData } = useApi(BUILDINGS_API_URL);
@@ -61,6 +27,7 @@ export default function Buildings() {
     if (buildingData.name.trim()) {
       postData(buildingData);
       handleCloseModal();
+      toast.success('Building was added successfuly');
     }
   };
 
@@ -92,12 +59,14 @@ export default function Buildings() {
         inputPlaceholder="Building Name"
         inputLabel="Enter Building Name:"
       />
+      <ToastContainer />
       {error && <p>Error: {error.message}</p>}
-      <BuildingList
+      <List
         data={data}
         loading={loading}
         error={error}
         onDeleteItem={handleDeleteItem}
+        route = {"buildings"}
       />
       {confirmDelete && (
         <div className="confirmation-dialog">

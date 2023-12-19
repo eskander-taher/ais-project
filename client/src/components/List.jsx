@@ -1,3 +1,5 @@
+import * as React from "react";
+import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,12 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import useApi from "../../utils/useApi";
-
-export default function AccessLogList({ api_url }) {
-	const { data, loading, error } = useApi(api_url);
-	console.log(data);
-
+export default function List({ data, loading, error, route }) {
 	if (loading) {
 		return <p>Loading...</p>;
 	}
@@ -23,27 +20,25 @@ export default function AccessLogList({ api_url }) {
 			<Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
 				<TableHead>
 					<TableRow>
-						<TableCell>User Name</TableCell>
-						<TableCell>Building Name</TableCell>
-						<TableCell>Accessed At</TableCell>
-						<TableCell>Accessed Status</TableCell>
+						<TableCell>Name</TableCell>
+						<TableCell align="right">id</TableCell>
+						<TableCell align="right">Created At</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{data.map((row) => (
 						<TableRow
-							key={row.id}
+							key={row.name}
 							sx={{
 								"&:last-child td, &:last-child th": { border: 0 },
-								backgroundColor: row.accessStatus == "DENIED" && "red"
+								"&:hover": { backgroundColor: "#f5f5f5", cursor: "pointer" },
 							}}
 						>
 							<TableCell component="th" scope="row">
-								{row.user.name}
+								<Link to={`/${route}/${row.id}`}>{row.name}</Link>
 							</TableCell>
-							<TableCell>{row.building.name}</TableCell>
-							<TableCell>{row.accessTime}</TableCell>
-							<TableCell>{row.accessStatus}</TableCell>
+							<TableCell align="right">{row.id}</TableCell>
+							<TableCell align="right">{row.createdAt}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
