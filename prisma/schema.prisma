@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:admin@localhost:5432/acsdb"
+  url      = "postgresql://postgres:admin@144.126.192.45:5432/acsdb"
 }
 
 // Model "User" represents user data with an "id", "name", and relationships to "buildings" and "accessLogs."

@@ -58,10 +58,19 @@ async function deleteById(id) {
 
 async function connectEntities(userId, buildingId) {
 	try {
-		return await prisma.userInBuilding.create({
+		await prisma.userInBuilding.create({
 			data: {
 				userId,
 				buildingId,
+			},
+		});
+
+		return await prisma.user.findUnique({
+			where: {
+				id: userId,
+			},
+			include: {
+				buildings: { include: { building: true } },
 			},
 		});
 	} catch (error) {
@@ -71,12 +80,20 @@ async function connectEntities(userId, buildingId) {
 
 async function removeRelation(userId, buildingId) {
 	try {
-		return await prisma.userInBuilding.delete({
+		await prisma.userInBuilding.delete({
 			where: {
 				userId_buildingId: {
 					userId,
-					buildingId
+					buildingId,
 				},
+			},
+		});
+		return await prisma.user.findUnique({
+			where: {
+				id: userId,
+			},
+			include: {
+				buildings: { include: { building: true } },
 			},
 		});
 	} catch (error) {
