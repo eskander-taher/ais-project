@@ -44,6 +44,10 @@ async function createAccessLog(data) {
 	try {
 		return await prisma.accessLog.create({
 			data,
+			include:{
+				user: true,
+				building: true
+			}
 		});
 	} catch (error) {
 		throw error;
