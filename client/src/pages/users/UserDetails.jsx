@@ -4,51 +4,32 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import useApi from "../../utils/useApi";
+
 const UserPage = () => {
-	const [user, setUser] = useState(null);
-	const [buildingIdInput, setBuildingIdInput] = useState("");
 	const { userId } = useParams();
-
-	useEffect(() => {
-		const fetchUserDetails = async () => {
-			try {
-				const response = await fetch(`http://localhost:5000/users/${userId}/buildings`); // Adjust the API endpoint as needed
-				if (!response.ok) {
-					throw new Error("Failed to fetch user details");
-				}
-
-				const userData = await response.json();
-				setUser(userData.data);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		fetchUserDetails();
-	}, [userId]);
+	const {
+		data: user,
+		error,
+		loading,
+		setData,
+		deleteData,
+		postData
+	} = useApi(`/users/${userId}/buildings`);
+	const [buildingIdInput, setBuildingIdInput] = useState("");
 
 	const handleAddBuilding = async () => {
 		try {
-			const response = await fetch(
-				`http://localhost:5000/users/${userId}/buildings/${buildingIdInput}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({}),
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error("Failed to add user to building");
-			}
-
-			// Assuming the server response contains updated user data
-			const userData = await response.json();
-			setUser(userData.data);
-			toast.success("Building was added to user successfuly");
-			setBuildingIdInput(""); // Clear the input field after successful addition
+			await postData(buildingIdInput)
+			setData((prevData) => {
+				console.log(prevData);
+				return {
+					...prevData,
+					buildings: [...prevData.buildings,]
+				};
+			});
+			toast("Building was added to user successfully");
+			setBuildingIdInput("");
 		} catch (error) {
 			console.error(error);
 		}
@@ -56,31 +37,32 @@ const UserPage = () => {
 
 	const handleRemoveBuilding = async (buildingId) => {
 		try {
-			const response = await fetch(
-				`http://localhost:5000/users/${userId}/buildings/${buildingId}`,
-				{
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error("Failed to remove building from user");
-			}
-
-			// Assuming the server response contains updated user data
-			const userData = await response.json();
-			setUser(userData.data);
-			toast.success("Building was removed from user successfuly");
+			await deleteData(buildingId);
+			setData((prevData) => {
+				console.log(prevData);
+				return {
+					...prevData,
+					buildings: prevData.buildings.filter(
+						(building) => building.buildingId !== buildingId
+					),
+				};
+			});
+			toast("Building was removed from user successfully");
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	if (!user) {
+	if (loading) {
 		return <Typography>Loading...</Typography>;
+	}
+
+	if (error) {
+		return <Typography>Error loading user data</Typography>;
+	}
+
+	if (!user) {
+		return <Typography>No user found</Typography>;
 	}
 
 	const { name, createdAt, buildings } = user;

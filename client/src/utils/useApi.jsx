@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useApi = (url) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+const BASE_URL = "http://localhost:5000/api";
 
-  const fetchData = async () => {
+const useApi = (url) => {
+	url = BASE_URL + url;
+	const [data, setData] = useState(null);
+	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(true);
+
+	const fetchData = async () => {
 		try {
 			setLoading(true);
 			const response = await axios.get(url);
@@ -16,9 +19,9 @@ const useApi = (url) => {
 		} finally {
 			setLoading(false);
 		}
-  };
+	};
 
-  const postData = async (newData) => {
+	const postData = async (newData) => {
 		try {
 			setLoading(true);
 			const response = await axios.post(url, newData);
@@ -30,9 +33,9 @@ const useApi = (url) => {
 		} finally {
 			setLoading(false);
 		}
-  };
+	};
 
-  const putData = async (id, updatedData) => {
+	const putData = async (id, updatedData) => {
 		try {
 			setLoading(true);
 			const response = await axios.put(`${url}/${id}`, updatedData);
@@ -42,26 +45,28 @@ const useApi = (url) => {
 		} finally {
 			setLoading(false);
 		}
-  };
+	};
 
-  const deleteData = async (id) => {
+	const deleteData = async (id) => {
 		try {
 			setLoading(true);
 			await axios.delete(`${url}/${id}`);
-			// Assuming successful deletion, you may want to handle this differently based on your API behavior
-			setData((prevData) => prevData.filter((user) => user.id !== id));
+			setData((prevData) => {
+				console.log(prevData)
+				return prevData.filter((user) => user.id !== id)
+			});
 		} catch (error) {
 			setError(error);
 		} finally {
 			setLoading(false);
 		}
-  };
+	};
 
-  useEffect(() => {
+	useEffect(() => {
 		fetchData();
-  }, []);
+	}, []);
 
-  return { data, error, loading, fetchData, postData, putData, deleteData };
+	return { data, setData, error, loading, fetchData, postData, putData, deleteData };
 };
 
 export default useApi;
