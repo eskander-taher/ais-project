@@ -5,27 +5,17 @@ const prisma = new PrismaClient();
 
 // Define the seed data
 async function main() {
-  const users = [
-    {
-      id: 1,
-      name: "Alice",
-    },
-    {
-      id: 2,
-      name: "Bob",
-    },
-  ];
+  // Generate data for 100 users
+  const users = Array.from({ length: 100 }, (_, index) => ({
+    id: index + 1,
+    name: `User${index + 1}`,
+  }));
 
-  const buildings = [
-    {
-      id: 1,
-      name: "Building A",
-    },
-    {
-      id: 2,
-      name: "Building B",
-    },
-  ];
+  // Generate data for 5 buildings
+  const buildings = Array.from({ length: 5 }, (_, index) => ({
+    id: index + 1,
+    name: `Building${index + 1}`,
+  }));
 
   const accessLogs = [
     {
@@ -40,6 +30,7 @@ async function main() {
       userId: 2,
       buildingId: 2,
     },
+    // Add more access logs as needed
   ];
 
   // Create users, buildings, and access logs
@@ -61,30 +52,17 @@ async function main() {
     });
   }
 
-  await prisma.userInBuilding.create({
-    data: {
-      userId: 1,
-      buildingId: 1,
-    },
-  });
-  await prisma.userInBuilding.create({
-    data: {
-      userId: 1,
-      buildingId: 2,
-    },
-  });
-  await prisma.userInBuilding.create({
-    data: {
-      userId: 2,
-      buildingId: 1,
-    },
-  });
-  await prisma.userInBuilding.create({
-    data: {
-      userId: 2,
-      buildingId: 2,
-    },
-  });
+  // Create userInBuilding relations for the first 100 users and 5 buildings
+  for (let userId = 1; userId <= 100; userId++) {
+    for (let buildingId = 1; buildingId <= 5; buildingId++) {
+      await prisma.userInBuilding.create({
+        data: {
+          userId,
+          buildingId,
+        },
+      });
+    }
+  }
 }
 
 main()
