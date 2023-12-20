@@ -55,6 +55,10 @@ async function main() {
   // Create userInBuilding relations for the first 100 users and 5 buildings
   for (let userId = 1; userId <= 10; userId++) {
     for (let buildingId = 1; buildingId <= 5; buildingId++) {
+      const randomNumber = Math.random();
+      if (randomNumber < 0.5) {
+        continue;
+      }
       await prisma.userInBuilding.create({
         data: {
           userId,
