@@ -4,7 +4,7 @@ info:
   description: An access control system api that manages users access to buildings and create access logs
   version: 1.0.0
 servers:
-  - url: http://144.126.192.45:5000/api
+  - url: http://localhost:5000/api
     description: Internal staging server for testing
 paths:
   /users:

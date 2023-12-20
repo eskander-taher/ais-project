@@ -60,6 +60,31 @@ async function main() {
       data: accessLogData,
     });
   }
+
+  await prisma.userInBuilding.create({
+    data: {
+      userId: 1,
+      buildingId: 1,
+    },
+  });
+  await prisma.userInBuilding.create({
+    data: {
+      userId: 1,
+      buildingId: 2,
+    },
+  });
+  await prisma.userInBuilding.create({
+    data: {
+      userId: 2,
+      buildingId: 1,
+    },
+  });
+  await prisma.userInBuilding.create({
+    data: {
+      userId: 2,
+      buildingId: 2,
+    },
+  });
 }
 
 main()

@@ -9,14 +9,14 @@ const BuildingPage = () => {
   useEffect(() => {
     const fetchBuildingDetails = async () => {
       try {
-        const response = await fetch(`http://144.126.192.45:5000/buildings/${buildingId}/users`); // Adjust the API endpoint as needed
-        if (!response.ok) {
-          throw new Error('Failed to fetch building details');
-        }
+			const response = await fetch(`http://localhost:5000/buildings/${buildingId}/users`); // Adjust the API endpoint as needed
+			if (!response.ok) {
+				throw new Error("Failed to fetch building details");
+			}
 
-        const buildingData = await response.json();
-        setBuilding(buildingData.data);
-      } catch (error) {
+			const buildingData = await response.json();
+			setBuilding(buildingData.data);
+		} catch (error) {
         console.error(error);
       }
     };

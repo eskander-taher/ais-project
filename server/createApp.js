@@ -12,9 +12,9 @@ function createApp() {
 	app.use(express.static(path.join(__dirname, "../client/dist")));
 
 	// Resources routes
-	app.use("/users", require("./api/routes/userRoutes"));
-	app.use("/buildings", require("./api/routes/buildingRoutes"));
-	app.use("/access", require("./api/routes/accessRoutes"));
+	app.use("/api/users", require("./api/routes/userRoutes"));
+	app.use("/api/buildings", require("./api/routes/buildingRoutes"));
+	app.use("/api/access", require("./api/routes/accessRoutes"));
 
 	swagger(app);
 	return app;

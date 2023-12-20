@@ -12,9 +12,7 @@ const UserPage = () => {
 	useEffect(() => {
 		const fetchUserDetails = async () => {
 			try {
-				const response = await fetch(
-					`http://144.126.192.45:5000/users/${userId}/buildings`
-				); // Adjust the API endpoint as needed
+				const response = await fetch(`http://localhost:5000/users/${userId}/buildings`); // Adjust the API endpoint as needed
 				if (!response.ok) {
 					throw new Error("Failed to fetch user details");
 				}
@@ -32,7 +30,7 @@ const UserPage = () => {
 	const handleAddBuilding = async () => {
 		try {
 			const response = await fetch(
-				`http://144.126.192.45:5000/users/${userId}/buildings/${buildingIdInput}`,
+				`http://localhost:5000/users/${userId}/buildings/${buildingIdInput}`,
 				{
 					method: "POST",
 					headers: {
@@ -59,7 +57,7 @@ const UserPage = () => {
 	const handleRemoveBuilding = async (buildingId) => {
 		try {
 			const response = await fetch(
-				`http://144.126.192.45:5000/users/${userId}/buildings/${buildingId}`,
+				`http://localhost:5000/users/${userId}/buildings/${buildingId}`,
 				{
 					method: "DELETE",
 					headers: {
