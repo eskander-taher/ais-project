@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 // Define the seed data
 async function main() {
   // Generate data for 100 users
-  const users = Array.from({ length: 100 }, (_, index) => ({
+  const users = Array.from({ length: 10 }, (_, index) => ({
     id: index + 1,
     name: `User${index + 1}`,
   }));
@@ -53,7 +53,7 @@ async function main() {
   }
 
   // Create userInBuilding relations for the first 100 users and 5 buildings
-  for (let userId = 1; userId <= 100; userId++) {
+  for (let userId = 1; userId <= 10; userId++) {
     for (let buildingId = 1; buildingId <= 5; buildingId++) {
       await prisma.userInBuilding.create({
         data: {
