@@ -14,21 +14,15 @@ const UserPage = () => {
 		loading,
 		setData,
 		deleteData,
-		postData
+		postData,
+		addBuilding,
 	} = useApi(`/users/${userId}/buildings`);
 	const [buildingIdInput, setBuildingIdInput] = useState("");
 
 	const handleAddBuilding = async () => {
 		try {
-			await postData(buildingIdInput)
-			setData((prevData) => {
-				console.log(prevData);
-				return {
-					...prevData,
-					buildings: [...prevData.buildings,]
-				};
-			});
-			toast("Building was added to user successfully");
+			await addBuilding(buildingIdInput);
+			toast.success("Building was added to user successfully");
 			setBuildingIdInput("");
 		} catch (error) {
 			console.error(error);
@@ -47,7 +41,7 @@ const UserPage = () => {
 					),
 				};
 			});
-			toast("Building was removed from user successfully");
+			toast.success("Building was removed from user successfully");
 		} catch (error) {
 			console.error(error);
 		}

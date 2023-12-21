@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// const BASE_URL = "http://localhost:5000/api";
-const BASE_URL = "http://134.122.104.19:5000/api";
+const BASE_URL = "http://localhost:5000/api";
+// const BASE_URL = "http://134.122.104.19:5000/api";
 
 const useApi = (url) => {
 	url = BASE_URL + url;
@@ -52,10 +52,18 @@ const useApi = (url) => {
 		try {
 			setLoading(true);
 			await axios.delete(`${url}/${id}`);
-			setData((prevData) => {
-				console.log(prevData)
-				return prevData.filter((user) => user.id !== id)
-			});
+		} catch (error) {
+			setError(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const addBuilding = async (id) => {
+		try {
+			setLoading(true);
+			await axios.post(`${url}/${id}`);
+			await fetchData();
 		} catch (error) {
 			setError(error);
 		} finally {
@@ -67,7 +75,7 @@ const useApi = (url) => {
 		fetchData();
 	}, []);
 
-	return { data, setData, error, loading, fetchData, postData, putData, deleteData };
+	return { data, setData, error, loading, fetchData, postData, putData, deleteData, addBuilding };
 };
 
 export default useApi;

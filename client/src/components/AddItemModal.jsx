@@ -31,7 +31,13 @@ const AddItemModal = ({ isOpen, onClose, onAddItem }) => {
 				</span>
 				<h2>Add Item</h2>
 				<label htmlFor="itemName">Item Name:</label>
-				<input type="text" id="itemName" value={itemName} onChange={handleInputChange} />
+				<input
+					autoFocus={true}
+					type="text"
+					id="itemName"
+					value={itemName}
+					onChange={handleInputChange}
+				/>
 				<button onClick={handleAddClick}>Add Item</button>
 			</div>
 		</div>
