@@ -36,7 +36,8 @@ async function simulateUserAccess() {
 
 	// Function to simulate access at random intervals
 	function simulateAccessWithRandomInterval() {
-		const randomInterval = Math.random() * (2000 - 500) + 500; // Random interval between 0.5 and 2 seconds
+		// const randomInterval = Math.random() * (3000 - 1000) + 1000; // Random interval between 0.5 and 2 seconds
+		const randomInterval = 1000; // Random interval between 0.5 and 2 seconds
 		// console.log(`Next access in ${randomInterval / 1000} seconds`);
 
 		setTimeout(async () => {

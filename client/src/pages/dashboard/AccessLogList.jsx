@@ -21,7 +21,7 @@ export default function AccessLogList() {
 
   // Set up the interval on component mount
   useEffect(() => {
-    const intervalId = setInterval(fetchAccessLogs, 3000);
+    const intervalId = setInterval(fetchAccessLogs, 1000);
 
     // Clear the interval on component unmount
     return () => clearInterval(intervalId);

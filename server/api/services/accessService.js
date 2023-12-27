@@ -56,10 +56,13 @@ async function createAccessLog(data) {
 
 async function getAll() {
 	try {
-		return await prisma.accessLog.findMany({include: {
-			user: true,
-			building: true,
-		  },});
+		return await prisma.accessLog.findMany({
+			take: -10,
+			include: {
+				user: true,
+				building: true,
+			},
+		});
 	} catch (error) {
 		throw error;
 	}
